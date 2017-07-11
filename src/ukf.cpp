@@ -19,7 +19,7 @@ UKF::UKF() {
   is_initialized_ = false;
 
   // if this is false, laser measurements will be ignored (except during init)
-  use_laser_ = false;
+  use_laser_ = true;
 
   // if this is false, radar measurements will be ignored (except during init)
   use_radar_ = true;
@@ -147,7 +147,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   count ++;
   std::cout<<"\ncount = "<<count<<"\n";
   // For all measurements folloing the first
-  if ((meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true) || (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true)) {
+
     //Compute the time elapsed between the current and previous measurements
 	   double dt = (meas_package.timestamp_ - time_us_) / 1000000.0;	//dt - expressed in seconds
 	   time_us_ = meas_package.timestamp_;
@@ -172,7 +172,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
     // Call Lidar measurement
     UpdateLidar(meas_package);
   }
-}
+
 
 
 
