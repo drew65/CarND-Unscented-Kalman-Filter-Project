@@ -19,7 +19,7 @@ UKF::UKF() {
   is_initialized_ = false;
 
   // if this is false, laser measurements will be ignored (except during init)
-  use_laser_ = true;
+  use_laser_ = false;
 
   // if this is false, radar measurements will be ignored (except during init)
   use_radar_ = true;
@@ -60,12 +60,6 @@ UKF::UKF() {
   */
   ///* time when the state is true, in us
   time_us_ = 0.0;
-
-  ///* if this is false, laser measurements will be ignored///* (except for init)
-  use_laser_ = true;
-
-  ///* if this is false, radar measurements will be ignored (except for init)
-  use_radar_ = true;
 
   ///* State dimension
   n_x_ = 5;
@@ -170,13 +164,13 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 
     //Prediction(dt);
 
-  if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
+  if (meas_package.sensor_type_ == MeasurementPackage::RADAR && use_radar_ == true) {
     // Call Radar measurement
     UpdateRadar(meas_package);
-  } else {
+  }
+  if (meas_package.sensor_type_ == MeasurementPackage::LASER && use_laser_ == true) {
     // Call Lidar measurement
     UpdateLidar(meas_package);
-
   }
 }
 
